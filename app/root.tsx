@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { SidePanel } from "./components/layout/sidePanel/sidePanel";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -33,7 +34,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <div className="grid grid-cols-[auto_1fr]">
+          <SidePanel />
+          {children}
+        </div>
         <ScrollRestoration />
         <Scripts />
       </body>
