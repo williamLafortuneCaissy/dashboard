@@ -17,18 +17,20 @@ const secondaryItems = [
   { icon: <Settings />, label: "Settings", path: "/settings" },
 ];
 
+// these styles needs to be available for the logout button
+const navItemStyles = "flex items-center gap-3 mx-1 px-3 py-2 text-sm rounded-full transition-colors cursor-pointer";
+const isOpenTextStyles = (isOpen: boolean) => !isOpen ? "sm:max-lg:hidden" : "";
+
 const NavItem = ({ icon, label, isOpen, to, onClick }: any) => {
-  const defaultStyles = "flex items-center gap-3 mx-1 px-3 py-2 text-sm rounded-full transition-colors cursor-pointer";
   const isActiveStyles = (isActive: boolean) => isActive ? "bg-sky-300 dark:bg-sky-600" : "hover:bg-sky-200 dark:hover:bg-sky-800/50";
-  const isOpenTextStyles = !isOpen ? "sm:max-lg:hidden" : "";
 
   return (
     <NavLink to={to} onClick={onClick} className={({ isActive }) => clsx(
-      defaultStyles,
+      navItemStyles,
       isActiveStyles(isActive)
     )}>
       {icon}
-      <span className={clsx(isOpenTextStyles, 'truncate')} >{label}</span>
+      <span className={clsx(isOpenTextStyles(isOpen), 'truncate')} >{label}</span>
     </NavLink>
   );
 };
@@ -38,7 +40,6 @@ export const SidePanel = () => {
   const { isMobile, isTablet } = useResponsive();
 
   const showOverlay = (isMobile || isTablet) && isOpen;
-  const isCollapsed = isTablet && !isOpen;
 
   const logout = () => {
     console.log("logout");
@@ -68,7 +69,7 @@ export const SidePanel = () => {
           {/* Replace with your logos */}
           <div className="flex items-center gap-2 font-bold text-xl">
             <Target className="w-8 h-8" />
-            {!isCollapsed ? 'BrandLogo' : ''}
+            {isOpen ? 'BrandLogo' : ''}
           </div>
 
         </div>
@@ -99,7 +100,7 @@ export const SidePanel = () => {
           ))}
           <button onClick={logout} className={navItemStyles}>
             <LogOut />
-            {!isCollapsed && <span className="truncate">{"Logout"}</span>}
+            <span className={clsx(isOpenTextStyles(isOpen), 'truncate')}>{"Logout"}</span>
           </button >
         </div>
       </aside>
