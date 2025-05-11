@@ -1,7 +1,7 @@
 
 export function Welcome() {
   return (
-    <main>
+    <main className="bg-white">
       <h1>Hellow world</h1>
     </main>
   );
