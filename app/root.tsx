@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 
+import clsx from "clsx";
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Header } from "./components/layout/sidePanel/header/header";
@@ -26,6 +27,10 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+const contentStyles = "flex flex-col px-4 py-2 shadow-xl";
+const contentSmStyles = "sm:bg-white sm:dark:bg-gray-900 sm:m-2 sm:ml-0 sm:rounded-2xl";
+const mainStyles = "mt-2 pt-4 border-gray-300 dark:border-gray-500 border-t"
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -39,9 +44,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <SidePanelContextProvider>
           <div className="grid grid-cols-[auto_1fr] min-h-screen">
             <SidePanel />
-            <div className="flex flex-col bg-white dark:bg-gray-900 shadow-xl sm:m-2 sm:ml-0 px-4 py-2 sm:rounded-2xl">
+            <div className={clsx(contentStyles, contentSmStyles)}>
               <Header />
-              <main className="mt-2 pt-4 border-gray-300 dark:border-gray-500 border-t">{children}</main>
+              <main className={mainStyles}>{children}</main>
             </div>
           </div>
         </SidePanelContextProvider>

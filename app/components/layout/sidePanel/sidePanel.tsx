@@ -5,8 +5,8 @@ import {
   Settings,
   Target
 } from "lucide-react";
+import { NavLink } from "react-router";
 import { useResponsive } from "~/utils/useResponsive";
-import { navItemStyles, navTextIsShown, sidepanelIsFullWidth, sidepanelIsMobile, sidepanelIsOffset, sidePanelStyles } from "./sidePanel.styles";
 import { useSidePanelContext } from "./sidePanelContext";
 
 const navItems = [
@@ -15,15 +15,23 @@ const navItems = [
 
 const secondaryItems = [
   { icon: <Settings />, label: "Settings", path: "/settings" },
-  { icon: <LogOut />, label: "Logout", path: "/logout" },
 ];
 
-const NavItem = ({ icon, label, showText, onClick }: any) => (
-  <button className={clsx(navItemStyles, navTextIsShown(showText))} onClick={onClick}>
-    {icon}
-    {showText && <span>{label}</span>}
-  </button>
-);
+const NavItem = ({ icon, label, isOpen, to, onClick }: any) => {
+  const defaultStyles = "flex items-center gap-3 mx-1 px-3 py-2 text-sm rounded-full transition-colors cursor-pointer";
+  const isActiveStyles = (isActive: boolean) => isActive ? "bg-sky-300 dark:bg-sky-600" : "hover:bg-sky-200 dark:hover:bg-sky-800/50";
+  const isOpenTextStyles = !isOpen ? "sm:max-lg:hidden" : "";
+
+  return (
+    <NavLink to={to} onClick={onClick} className={({ isActive }) => clsx(
+      defaultStyles,
+      isActiveStyles(isActive)
+    )}>
+      {icon}
+      <span className={clsx(isOpenTextStyles, 'truncate')} >{label}</span>
+    </NavLink>
+  );
+};
 
 export const SidePanel = () => {
   const { isOpen, open, close } = useSidePanelContext();
@@ -31,6 +39,14 @@ export const SidePanel = () => {
 
   const showOverlay = (isMobile || isTablet) && isOpen;
   const isCollapsed = isTablet && !isOpen;
+
+  const logout = () => {
+    console.log("logout");
+  };
+
+  const defaultStyles = "h-screen flex flex-col transition-all z-40 w-74 relative"
+  const isOpenStyles = (isOpen: boolean) => isOpen ? "" : "max-sm:-translate-x-full sm:max-lg:w-14";
+  const mobileStyles = "max-sm:fixed max-sm:top-0 max-sm:left-0 max-sm:shadow-lg max-sm:bg-white max-sm:dark:bg-gray-900";
 
   return (
     <div>
@@ -42,17 +58,16 @@ export const SidePanel = () => {
       )}
       <aside
         className={clsx(
-          sidePanelStyles,
-          sidepanelIsOffset(isMobile, isOpen),
-          sidepanelIsMobile(isMobile),
-          sidepanelIsFullWidth(!isCollapsed)
+          defaultStyles,
+          isOpenStyles(isOpen),
+          mobileStyles,
         )}
       >
         {/* Brand */}
-        <div className="px-4 py-3">
+        <div className="mt-2 px-3 py-2">
           {/* Replace with your logos */}
           <div className="flex items-center gap-2 font-bold text-xl">
-            <Target />
+            <Target className="w-8 h-8" />
             {!isCollapsed ? 'BrandLogo' : ''}
           </div>
 
@@ -61,24 +76,31 @@ export const SidePanel = () => {
         <nav className="flex flex-col gap-1 mt-4">
           {navItems.map((item) => (
             <NavItem
-              key={item.label}
+              key={item.path}
+              to={item.path}
               {...item}
-              showText={!isCollapsed}
+              isOpen={isOpen}
               onClick={close}
+
             />
           ))}
         </nav>
         <div className="grow-1" onClick={open} />
         {/* Secondary Nav */}
-        <div className="flex flex-col mt-auto pb-4">
+        <div className="flex flex-col gap-1 mt-auto pb-4">
           {secondaryItems.map((item) => (
             <NavItem
-              key={item.label}
+              key={item.path}
               {...item}
-              showText={!isCollapsed}
+              to={item.path}
+              isOpen={isOpen}
               onClick={close}
             />
           ))}
+          <button onClick={logout} className={navItemStyles}>
+            <LogOut />
+            {!isCollapsed && <span className="truncate">{"Logout"}</span>}
+          </button >
         </div>
       </aside>
     </div>
