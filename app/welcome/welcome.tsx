@@ -1,8 +1,8 @@
 
 export function Welcome() {
   return (
-    <main className="bg-white">
-      <h1>Hellow world</h1>
-    </main>
+    <div>
+      <h1 className="text-2xl font-bold">Dashboard</h1>
+    </div>
   );
 }
