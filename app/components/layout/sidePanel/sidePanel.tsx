@@ -6,8 +6,8 @@ import {
   Target
 } from "lucide-react";
 import { useResponsive } from "~/utils/useResponsive";
-import { navItemStyles, navTextIsShown, sidepanelIsFixed, sidepanelIsFullWidth, sidepanelIsOffset, sidePanelStyles } from "./sidePanel.styles";
-import { useSidePanel } from "./useSidePanel";
+import { navItemStyles, navTextIsShown, sidepanelIsFullWidth, sidepanelIsMobile, sidepanelIsOffset, sidePanelStyles } from "./sidePanel.styles";
+import { useSidePanelContext } from "./sidePanelContext";
 
 const navItems = [
   { icon: <LayoutDashboard />, label: "Dashboard", path: "/" },
@@ -26,7 +26,7 @@ const NavItem = ({ icon, label, showText, onClick }: any) => (
 );
 
 export const SidePanel = () => {
-  const { isOpen, open, close } = useSidePanel();
+  const { isOpen, open, close } = useSidePanelContext();
   const { isMobile, isTablet } = useResponsive();
 
   const showOverlay = (isMobile || isTablet) && isOpen;
@@ -36,7 +36,7 @@ export const SidePanel = () => {
     <>
       {showOverlay && (
         <div
-          className="fixed inset-0 bg-white/50 z-30"
+          className="z-30 fixed inset-0 bg-black/50"
           onClick={close}
         />
       )}
@@ -44,14 +44,14 @@ export const SidePanel = () => {
         className={clsx(
           sidePanelStyles,
           sidepanelIsOffset(isMobile, isOpen),
-          sidepanelIsFixed(isMobile),
+          sidepanelIsMobile(isMobile),
           sidepanelIsFullWidth(!isCollapsed)
         )}
       >
         {/* Brand */}
         <div className="px-4 py-3">
           {/* Replace with your logos */}
-          <div className="text-xl font-bold flex items-center gap-2">
+          <div className="flex items-center gap-2 font-bold text-xl">
             <Target />
             {!isCollapsed ? 'BrandLogo' : ''}
           </div>
@@ -70,7 +70,7 @@ export const SidePanel = () => {
         </nav>
         <div className="grow-1" onClick={open} />
         {/* Secondary Nav */}
-        <div className="mt-auto flex flex-col pb-4">
+        <div className="flex flex-col mt-auto pb-4">
           {secondaryItems.map((item) => (
             <NavItem
               key={item.label}

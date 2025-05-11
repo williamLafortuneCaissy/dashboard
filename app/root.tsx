@@ -9,7 +9,9 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { Header } from "./components/layout/sidePanel/header/header";
 import { SidePanel } from "./components/layout/sidePanel/sidePanel";
+import { SidePanelContextProvider } from "./components/layout/sidePanel/sidePanelContext";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -34,10 +36,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <div className="grid grid-cols-[auto_1fr]">
-          <SidePanel />
-          {children}
-        </div>
+        <SidePanelContextProvider>
+          <div className="grid grid-cols-[auto_1fr] min-h-screen">
+            <SidePanel />
+            <div className="flex flex-col bg-white dark:bg-gray-900 shadow-xl sm:m-2 sm:ml-0 px-4 py-2 sm:rounded-2xl">
+              <Header />
+              <main className="mt-2 pt-4 border-gray-300 dark:border-gray-500 border-t">{children}</main>
+            </div>
+          </div>
+        </SidePanelContextProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -66,11 +73,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
+    <main className="mx-auto p-4 pt-16 container">
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+        <pre className="p-4 w-full overflow-x-auto">
           <code>{stack}</code>
         </pre>
       )}
