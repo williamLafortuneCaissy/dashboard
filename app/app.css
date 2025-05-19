@@ -13,3 +13,12 @@ body {
     color-scheme: dark;
   }
 }
+
+@layer base {
+
+  *,
+  ::before,
+  ::after {
+    @apply border-gray-300 dark:border-gray-500
+  }
+}

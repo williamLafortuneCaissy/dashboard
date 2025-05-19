@@ -3,7 +3,8 @@ import {
   LayoutDashboard,
   LogOut,
   Settings,
-  Target
+  Target,
+  User
 } from "lucide-react";
 import { NavLink } from "react-router";
 import { useResponsive } from "~/utils/useResponsive";
@@ -11,6 +12,7 @@ import { useSidePanelContext } from "./sidePanelContext";
 
 const navItems = [
   { icon: <LayoutDashboard />, label: "Dashboard", path: "/" },
+  { icon: <User />, label: "Users", path: "/users" },
 ];
 
 const secondaryItems = [

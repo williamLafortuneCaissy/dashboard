@@ -1,6 +1,6 @@
 import { Menu, User } from "lucide-react";
 import { useResponsive } from "~/utils/useResponsive";
-import { useSidePanelContext } from "../sidePanelContext";
+import { useSidePanelContext } from "../sidePanel/sidePanelContext";
 
 export const Header = () => {
   const { isMobile, isTablet, isDesktop } = useResponsive();
