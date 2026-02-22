@@ -1,0 +1,60 @@
+@reference "tailwindcss";
+
+.rail {
+  --rail-width: 3.5rem;
+}
+
+.sidePanel {
+  --sp-width: 18.5rem;
+
+  position: relative;
+  z-index: 40;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @apply bg-white dark:bg-gray-800 transition-all;
+}
+
+/* Mobile */
+@media (max-width: 639px) {
+  .sidePanel {  
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    transform: translateX(-100%);    
+  }
+  
+  .isOpen {
+    transform: translateX(0);
+  }
+}
+
+/* Tablet */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .rail {
+    width: var(--rail-width);
+  }
+  
+  .sidePanel {
+    width: var(--rail-width);
+  }
+
+  .toggler {
+    @apply grow-1;
+  }
+
+  .isOpen {
+    width: var(--sp-width);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .sidePanel {
+    width: var(--sp-width);
+  }
+}

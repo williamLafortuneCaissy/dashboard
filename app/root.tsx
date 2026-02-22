@@ -28,7 +28,7 @@ export const links: Route.LinksFunction = () => [
 ];
 
 const contentStyles = "flex flex-col px-4 py-2 shadow-xl";
-const contentSmStyles = "sm:bg-white sm:dark:bg-gray-900 sm:m-2 sm:ml-0 sm:rounded-2xl";
+const contentSmStyles = "sm:bg-white sm:dark:bg-gray-900 sm:m-2 sm:rounded-2xl";
 const mainStyles = "mt-2 pt-4 border-t"
 
 export function Layout({ children }: { children: React.ReactNode }) {

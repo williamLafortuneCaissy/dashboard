@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { useResponsive } from "~/utils/useResponsive";
 
 
@@ -12,10 +12,10 @@ export const SidePanelContextProvider = ({ children }: { children: React.ReactNo
   const { isTablet } = useResponsive();
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    setIsOpen(false);
-    // should close side panel on mobile + tablet
-  }, [isTablet]);
+  // useEffect(() => {
+  //   setIsOpen(false);
+  //   // should close side panel on mobile + tablet
+  // }, [isTablet]);
 
   const open = useCallback(() => setIsOpen(true), []);
   const close = useCallback(() => setIsOpen(false), []);
